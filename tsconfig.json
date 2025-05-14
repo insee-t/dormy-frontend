@@ -19,9 +19,14 @@
     "jsx": "preserve",
     "baseUrl": ".", // Base directory for resolving aliases
     "paths": {
-      "@/*": ["src/*"], // General alias for everything in src
-      "@components/*": ["src/components/components/*"] // Specific alias for your nested components
-    }
+      "@/*": [
+        "src/*"
+      ], // General alias for everything in src
+      "@components/*": [
+        "src/components/components/*"
+      ] // Specific alias for your nested components
+    },
+    "target": "ES2017"
   },
   "include": [
     "next-env.d.ts",
