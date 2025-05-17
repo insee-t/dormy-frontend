@@ -1,28 +1,35 @@
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { Building, Plus, FileText, BellRing, MessageCircle, DollarSign, Users } from 'lucide-react';
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import {
+  Building,
+  Plus,
+  FileText,
+  BellRing,
+  MessageCircle,
+  DollarSign,
+  Users,
+} from "lucide-react";
 
 const RoleSelection = () => {
   const router = useRouter();
 
   const handleAddLayer = () => {
-    router.push('/newDorm');
+    router.push("/newDorm");
   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="w-full max-w-7xl px-4 py-8">
         <div className="grid md:grid-cols-2 gap-8">
-          
           <div className="bg-white rounded-lg overflow-hidden shadow-lg">
             <div className="bg-[#586576] p-6 flex items-center justify-between">
               <div>
                 <h2 className="text-[#FFD700] text-lg font-semibold">สำหรับ</h2>
                 <h1 className="text-[#ffffff] text-3xl font-bold">เจ้าของหอ</h1>
               </div>
-              <Image 
+              <Image
                 src="/assets/1.png"
                 alt="Dormitory"
                 width={150}
@@ -66,10 +73,10 @@ const RoleSelection = () => {
                 </button>
               </div>
 
-              <button 
-                onClick={handleAddLayer} 
+              <button
+                onClick={handleAddLayer}
                 className="w-full mt-6 bg-[#4CAF50] text-white py-3 rounded-md flex items-center justify-center"
-              > 
+              >
                 <Plus className="w-5 h-5 mr-2" />
                 เพิ่มตึกใหม่
               </button>
@@ -82,7 +89,7 @@ const RoleSelection = () => {
                 <h2 className="text-[#FFD700] text-lg font-semibold">สำหรับ</h2>
                 <h1 className="text-[#ffffff] text-3xl font-bold">ผู้เช่า</h1>
               </div>
-              <Image 
+              <Image
                 src="/assets/2.png"
                 alt="Dormitory"
                 width={150}
@@ -118,7 +125,6 @@ const RoleSelection = () => {
               </button>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -126,3 +132,4 @@ const RoleSelection = () => {
 };
 
 export default RoleSelection;
+

@@ -4,51 +4,56 @@ import React, { useEffect, useState } from "react";
 import { Button, Input } from "@heroui/react";
 import { HeroUIProvider } from "@heroui/react";
 import { User, SearchIcon } from "lucide-react";
-import { useAuth } from '@clerk/nextjs';
+import { useSession } from "next-auth/react";
 import App from "../../components/Sidebar/App";
 
 export default function RoomLayout() {
   const [apartments, setApartments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const { isLoaded, userId, getToken } = useAuth();
+  const { data: session, status, update } = useSession();
 
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000/api';
+  const API_BASE_URL = process.env.NEXTAUTH_URL || "http://localhost:3000/api";
 
   const summaryData = [
     {
       label: "ห้องว่าง",
-      count: apartments.filter((room) => room.availability_status === "vacant").length,
+      count: apartments.filter((room) => room.availability_status === "vacant")
+        .length,
       color: "bg-gray-400",
     },
     {
       label: "ห้องมีผู้เช่า",
-      count: apartments.filter((room) => room.availability_status === "occupied").length,
+      count: apartments.filter(
+        (room) => room.availability_status === "occupied",
+      ).length,
       color: "bg-green-500",
     },
     {
       label: "ห้องปิดปรับปรุง",
-      count: apartments.filter((room) => room.availability_status === "under_maintenance").length,
+      count: apartments.filter(
+        (room) => room.availability_status === "under_maintenance",
+      ).length,
       color: "bg-red-500",
     },
   ];
 
   useEffect(() => {
-    if (!isLoaded || !userId) return; // Ensure user is loaded and authenticated
+    if (status !== "authenticated" || !session?.accessToken) return;
 
     const fetchData = async () => {
       try {
-        const token = await getToken(); // Get the Clerk token
+        // const token = await getToken(); // Get the Clerk token
         const response = await fetch(`${API_BASE_URL}/apartments`, {
-          method: 'GET',
+          method: "GET",
           headers: {
-            'Authorization': `Bearer ${token}`, // Include the token
+            Authorization: `Bearer ${session.accessToken}`, // Include the token
           },
-          credentials: 'include', // Sends cookies and authentication headers
+          credentials: "include", // Sends cookies and authentication headers
         });
 
         if (!response.ok) {
-          throw new Error('Failed to fetch data');
+          throw new Error("Failed to fetch data");
         }
 
         const data = await response.json();
@@ -62,9 +67,9 @@ export default function RoomLayout() {
     };
 
     fetchData();
-  }, [isLoaded, userId, getToken]); // Add dependencies
+  }, [status, session]); // Add dependencies
 
-  if (!isLoaded) {
+  if (status === "loading") {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <p>กำลังโหลด...</p>
@@ -74,12 +79,15 @@ export default function RoomLayout() {
 
   // Filter apartments based on search query
   const filteredApartments = apartments.filter((room) =>
-    room.apartment_number.toString().includes(searchQuery)
+    room.apartment_number.toString().includes(searchQuery),
   );
 
   // Group rooms by floor
-  const floorData: Record<number, { id: number; status: string; color: string }[]> =
-    filteredApartments.reduce((acc, room) => {
+  const floorData: Record<
+    number,
+    { id: number; status: string; color: string }[]
+  > = filteredApartments.reduce(
+    (acc, room) => {
       const floor = room.floor_number || 1;
       if (!acc[floor]) acc[floor] = [];
       acc[floor].push({
@@ -93,7 +101,9 @@ export default function RoomLayout() {
               : "bg-red-500",
       });
       return acc;
-    }, {} as Record<number, { id: number; status: string; color: string }[]>);
+    },
+    {} as Record<number, { id: number; status: string; color: string }[]>,
+  );
 
   return (
     <App title="ผังห้อง">
@@ -104,8 +114,13 @@ export default function RoomLayout() {
         {/* สรุปข้อมูลห้องพัก */}
         <div className="grid grid-cols-4 gap-4 mb-6">
           {summaryData.map((item, index) => (
-            <div key={index} className="flex items-center gap-3 p-4 bg-white-500 rounded-lg shadow">
-              <div className={`w-12 h-12 rounded-lg ${item.color} flex items-center justify-center`}>
+            <div
+              key={index}
+              className="flex items-center gap-3 p-4 bg-white-500 rounded-lg shadow"
+            >
+              <div
+                className={`w-12 h-12 rounded-lg ${item.color} flex items-center justify-center`}
+              >
                 <User className="w-8 h-8 text-white" />
               </div>
               <div>

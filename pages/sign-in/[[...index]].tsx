@@ -11,7 +11,7 @@ export default function Page() {
     setLoading(true);
     setError("");
     try {
-      await signIn("google", { callbackUrl: "/protected" });
+      await signIn("google", { callbackUrl: "/dashboard/rent_bill" });
     } catch (err) {
       setError("ไม่สามารถเข้าสู่ระบบด้วย Google ได้");
     } finally {

@@ -1,25 +1,25 @@
 // client/src/api/tenantApi.js
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000/api';
+const API_BASE_URL = process.env.NEXTAUTH_URL || "http://localhost:3000/api";
 
 export const createTenant = async (tenantData) => {
   try {
     const response = await fetch(`${API_BASE_URL}/tenants`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(tenantData),
-      credentials: 'include',
+      credentials: "include",
     });
 
     if (!response.ok) {
-      throw new Error('Failed to create tenant');
+      throw new Error("Failed to create tenant");
     }
 
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Error creating tenant:', error);
+    console.error("Error creating tenant:", error);
     throw error;
   }
 };
@@ -27,9 +27,9 @@ export const createTenant = async (tenantData) => {
 export const insertTenant = async (newUser, tenantData, apartmentId) => {
   try {
     const response = await fetch(`${API_BASE_URL}/tenants/insert`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-type': 'application/json',
+        "Content-type": "application/json",
       },
       body: JSON.stringify({
         clerkTenant: newUser,
@@ -38,54 +38,54 @@ export const insertTenant = async (newUser, tenantData, apartmentId) => {
         email: tenantData.email,
         apartmentId,
       }),
-      credentials: 'include',
+      credentials: "include",
     });
-    
+
     if (!response.ok) {
-      throw new Error('Failed to insert tenant');
+      throw new Error("Failed to insert tenant");
     }
-    
+
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Error insert tenants:', error);
+    console.error("Error insert tenants:", error);
     throw error;
   }
-}
+};
 
 export const linkRoom = async (tenantData, tenantId) => {
   try {
     const response = await fetch(`${API_BASE_URL}/tenants/link`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-type': 'application/json',
+        "Content-type": "application/json",
       },
       body: JSON.stringify({
         tenantId,
         roomNumber: tenantData.room,
       }),
-      credentials: 'include',
+      credentials: "include",
     });
-    
+
     if (!response.ok) {
-      throw new Error('Failed to link tenant');
+      throw new Error("Failed to link tenant");
     }
 
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Error link tenants to room:', error);
+    console.error("Error link tenants to room:", error);
     throw error;
   }
-}
+};
 
 export const fetchTenants = async () => {
   try {
     const response = await fetch(`${API_BASE_URL}/tenants`, {
-      credentials: 'include', // Equivalent to withCredentials: true in axios
+      credentials: "include", // Equivalent to withCredentials: true in axios
     });
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error("Network response was not ok");
     }
     const data = await response.json();
     setTenants(data);
@@ -93,3 +93,4 @@ export const fetchTenants = async () => {
     console.error("Error fetching tenants:", error);
   }
 };
+

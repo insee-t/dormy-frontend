@@ -27,7 +27,20 @@ export const authOptions = {
     // }),
   ],
   pages: {
-    signIn: "../../sign-in/[[...index]].tsx",
+    signIn: "/sign-in",
+  },
+  callbacks: {
+    async jwt({ token, account }) {
+      if (account?.access_token) {
+        token.accessToken = account.access_token;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.accessToken = token.accessToken;
+      session.user.id = token.sub!;
+      return session;
+    },
   },
 };
 

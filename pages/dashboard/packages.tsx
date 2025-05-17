@@ -28,9 +28,13 @@ function AddPackageModal({ isOpen, onClose, onPackageAdded }) {
 
     try {
       // Sending POST request to backend
-      const response = await axios.post("http://localhost:3002/api/packages", packageData, {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        "http://localhost:3001/api/packages",
+        packageData,
+        {
+          withCredentials: true,
+        },
+      );
 
       // Assuming success, close modal and notify parent component
       onPackageAdded(response.data);
@@ -51,7 +55,10 @@ function AddPackageModal({ isOpen, onClose, onPackageAdded }) {
         <h2 className="text-xl font-bold mb-4">เพิ่มพัสดุใหม่</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="room_number" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="room_number"
+              className="block text-sm font-medium text-gray-700"
+            >
               เลขห้อง
             </label>
             <Input
@@ -64,7 +71,10 @@ function AddPackageModal({ isOpen, onClose, onPackageAdded }) {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="owner_name" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="owner_name"
+              className="block text-sm font-medium text-gray-700"
+            >
               ชื่อเจ้าของพัสดุ
             </label>
             <Input
@@ -77,7 +87,10 @@ function AddPackageModal({ isOpen, onClose, onPackageAdded }) {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="tracking_code" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="tracking_code"
+              className="block text-sm font-medium text-gray-700"
+            >
               รหัสพัสดุ
             </label>
             <Input
@@ -124,10 +137,10 @@ export default function RoomLayout() {
   useEffect(() => {
     const fetchPackages = async () => {
       try {
-        const response = await axios.get("http://localhost:3002/api/packages", {
-          withCredentials:true,
+        const response = await axios.get("http://localhost:3001/api/packages", {
+          withCredentials: true,
         });
-        setPackages(response.data.reverse());  // Reversing the array after fetching
+        setPackages(response.data.reverse()); // Reversing the array after fetching
       } catch (error) {
         console.error("Error fetching packages:", error);
       }
@@ -159,7 +172,11 @@ export default function RoomLayout() {
                     startContent={<SearchIcon className="text-gray-400" />}
                   />
                   <div className="inline">
-                    <Button variant="flat" className="bg-green-500 text-white-500" onClick={openModal}>
+                    <Button
+                      variant="flat"
+                      className="bg-green-500 text-white-500"
+                      onClick={openModal}
+                    >
                       <Plus />
                       เพิ่มพัสดุ
                     </Button>
@@ -170,7 +187,10 @@ export default function RoomLayout() {
 
             {/* Display list of packages */}
             {packages.map((pkg, index) => (
-              <div key={index} className="flex items-center justify-between rounded-lg p-4 shadow-md">
+              <div
+                key={index}
+                className="flex items-center justify-between rounded-lg p-4 shadow-md"
+              >
                 <div className="flex gap-12 mx-8">
                   <Package size={75} />
                   <div className="flex items-center">
@@ -201,7 +221,11 @@ export default function RoomLayout() {
         </div>
 
         {/* Modal for Adding Package */}
-        <AddPackageModal isOpen={isModalOpen} onClose={closeModal} onPackageAdded={handlePackageAdded} />
+        <AddPackageModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          onPackageAdded={handlePackageAdded}
+        />
       </App>
     </HeroUIProvider>
   );

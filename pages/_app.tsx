@@ -1,21 +1,14 @@
+import { SessionProvider } from "next-auth/react";
 import "../styles/tailwind.css";
 import "../styles/slick.css";
 import "../styles/fonts.css";
+import { AppProps } from "next/app";
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
-    // frontendApi={process.env.NEXT_PUBLIC_CLERK_FRONTEND_API}
-    // navigate={(to) => router.push(to)}
-    <Component {...pageProps} />
+    <SessionProvider session={pageProps.session}>
+      <Component {...pageProps} />
+    </SessionProvider>
   );
 }
 export default MyApp;
-/* import "../styles/tailwind.css";
- * import "../styles/slick.css";
- * import '../styles/fonts.css'
- *
- * function MyApp({ Component, pageProps }) {
- *   return <Component {...pageProps} />;
- * }
- *
- * export default MyApp; */
