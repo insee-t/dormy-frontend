@@ -2,6 +2,7 @@
 
 import { signIn } from "next-auth/react";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Page() {
   const [error, setError] = useState("");
@@ -11,7 +12,7 @@ export default function Page() {
     setLoading(true);
     setError("");
     try {
-      await signIn("google", { callbackUrl: "/dashboard/rent_bill" });
+      await signIn("google", { callbackUrl: "/dashboard" });
     } catch (err) {
       setError("ไม่สามารถเข้าสู่ระบบด้วย Google ได้");
     } finally {
@@ -27,21 +28,29 @@ export default function Page() {
       </div>
 
       {/* Main Content: Centered Vertically and Horizontally */}
-      <div className="flex-1 flex items-center justify-center">
-        <div className="max-w-7xl w-full p-6 gap-8 flex flex-col sm:flex-row items-center">
+      <div className="flex-1 flex items-center justify-center px-4 py-8">
+        <div className="max-w-7xl w-full gap-8 flex flex-col md:flex-row items-center">
           {/* Left Section: Logo and Title */}
-          <div className="w-1/2 flex flex-col items-center justify-center">
+          <div className="w-full md:w-1/2 flex flex-col items-center justify-center mb-8 md:mb-0">
             <div className="text-center">
               <div className="flex-col">
-                <div className="mb-6 hidden sm:block">
+                {/* Mobile logo */}
+                <div className="mb-4 block md:hidden">
                   <img
                     src="/assets/Logo_vertical_white.png"
                     alt="Dormy Icon"
-                    width={400}
-                    height={300}
+                    className="w-48 h-auto mx-auto"
                   />
                 </div>
-                <h1 className="text-white text-3xl mb-4 hidden sm:block">
+                {/* Desktop logo */}
+                <div className="mb-6 hidden md:block">
+                  <img
+                    src="/assets/Logo_vertical_white.png"
+                    alt="Dormy Icon"
+                    className="w-[400px] h-auto"
+                  />
+                </div>
+                <h1 className="text-white text-xl md:text-3xl mb-4">
                   ระบบจัดการหอพัก อพาร์ทเมนท์
                 </h1>
               </div>
@@ -49,8 +58,8 @@ export default function Page() {
           </div>
 
           {/* Right Section: White Box with Google Login */}
-          <div className="w-1/2 flex justify-center">
-            <div className="bg-white-500 rounded-lg shadow-lg w-full max-w-md p-8">
+          <div className="w-full md:w-1/2 flex justify-center">
+            <div className="bg-white-500 rounded-lg shadow-lg w-full max-w-md p-6 md:p-8">
               <h2 className="text-xl font-semibold text-center mb-6">
                 เลือกวิธีเข้าสู่ระบบ
               </h2>
@@ -89,6 +98,21 @@ export default function Page() {
                   </>
                 )}
               </button>
+
+              {/* Sign-up option */}
+              <div className="mt-6 text-center text-sm">
+                <p className="text-gray-700">
+                  <span>ยังไม่มีบัญชี ?</span>
+                  <span className="ml-2">
+                    <Link
+                      href="/sign-up"
+                      className="text-black-600 hover:underline font-medium"
+                    >
+                      ลงชื่อเข้าใช้ที่นี่
+                    </Link>
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
         </div>

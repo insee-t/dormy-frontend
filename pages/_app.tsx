@@ -2,13 +2,14 @@ import { SessionProvider } from "next-auth/react";
 import "../styles/tailwind.css";
 import "../styles/slick.css";
 import "../styles/fonts.css";
-import { AppProps } from "next/app";
 
-function MyApp({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}) {
   return (
-    <SessionProvider session={pageProps.session}>
+    <SessionProvider session={session} refetchOnWindowFocus={true}>
       <Component {...pageProps} />
     </SessionProvider>
   );
 }
-export default MyApp;
