@@ -33,7 +33,8 @@ export default function Component({ children, title = "Overview" }) {
   const userImage = session?.user?.image;
 
   return (
-    <div className="flex w-full h-screen">
+    <div className="w-full h-screen ">
+      {/* Fixed Sidebar - unchanged */}
       <div
         className={cn(
           "fixed left-0 top-0 h-screen flex-col !border-r-small border-divider p-6 transition-width bg-white-500",
@@ -67,6 +68,7 @@ export default function Component({ children, title = "Overview" }) {
 
         <Spacer y={2} />
 
+        {/* tool tip */}
         <div
           className={cn("mt-auto flex flex-col ", {
             "items-center": isCompact,
@@ -149,7 +151,10 @@ export default function Component({ children, title = "Overview" }) {
           "ml-16": isCompact,
         })}
       >
-        <header className="sticky top-0 z-10  flex items-center justify-between rounded-medium border-small border-divider p-4 m-4 bg-white-500 shadow-sm">
+        <div className="h-4">
+        </div>
+        <header className="sticky top-0 z-10 flex items-center justify-between rounded-medium border-small border-divider p-4 mr-4 ml-4  bg-white-500 shadow-sm ">
+          {/* Left Section */}
           <div className="flex items-center gap-3">
             <Button isIconOnly size="sm" variant="light" onPress={onToggle}>
               <Icon
